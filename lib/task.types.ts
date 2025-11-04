@@ -23,6 +23,7 @@ export interface PaginatedTasks {
   current_page: number
   data: Task[]
   first_page_url: string
+  last_page: number
   last_page_url: string
   per_page: number
   total: number
