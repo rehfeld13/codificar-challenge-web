@@ -21,17 +21,17 @@ export function validateProject(input: Partial<ProjectInput>): ValidationResult 
   const errors: ValidationErrors = {}
   
   if (!input.name || input.name.trim() === '') {
-    errors.name = ['Name is required']
+    errors.name = ['O nome é obrigatório']
   } else if (input.name.length > 255) {
-    errors.name = ['Name must be at most 255 characters']
+    errors.name = ['O nome deve ter no máximo 255 caracteres']
   }
 
   if (!input.start_date || !isISODate(input.start_date)) {
-    errors.start_date = ['Start date is required and must be YYYY-MM-DD']
+    errors.start_date = ['A data de início é obrigatória e deve estar no formato YYYY-MM-DD']
   }
 
   if (!input.expected_end_date || !isISODate(input.expected_end_date)) {
-    errors.expected_end_date = ['Expected end date is required and must be YYYY-MM-DD']
+    errors.expected_end_date = ['A data de término é obrigatória e deve estar no formato YYYY-MM-DD']
   }
 
   if (input.start_date && input.expected_end_date && isISODate(input.start_date) && isISODate(input.expected_end_date)) {
@@ -39,12 +39,12 @@ export function validateProject(input: Partial<ProjectInput>): ValidationResult 
     const b = new Date(input.expected_end_date)
     if (b.getTime() < a.getTime()) {
       errors.expected_end_date = errors.expected_end_date || []
-      errors.expected_end_date.push('Expected end date must be greater than or equal to start date')
+      errors.expected_end_date.push('A data de término deve ser maior ou igual à data de início')
     }
   }
 
   if (!input.status || !PROJECT_STATUSES.includes(input.status)) {
-    errors.status = ['Status is required and must be a valid value']
+    errors.status = ['O status é obrigatório e deve ser um valor válido']
   }
 
   return { valid: Object.keys(errors).length === 0, errors }
@@ -54,31 +54,31 @@ export function validateTask(input: Partial<TaskInput>): ValidationResult {
   const errors: ValidationErrors = {}
   
   if (!input.title || input.title.trim() === '') {
-    errors.title = ['Title is required']
+    errors.title = ['O título é obrigatório']
   } else if (input.title.length > 255) {
-    errors.title = ['Title must be at most 255 characters']
+    errors.title = ['O título deve ter no máximo 255 caracteres']
   }
 
   if (!input.project_id || typeof input.project_id !== 'number' || input.project_id <= 0) {
-    errors.project_id = ['Project id is required and must be a valid number']
+    errors.project_id = ['O ID do projeto é obrigatório e deve ser um número válido']
   }
 
   if (!input.responsible || input.responsible.trim() === '') {
-    errors.responsible = ['Responsible is required']
+    errors.responsible = ['O responsável é obrigatório']
   } else if (input.responsible.length > 255) {
-    errors.responsible = ['Responsible must be at most 255 characters']
+    errors.responsible = ['O responsável deve ter no máximo 255 caracteres']
   }
 
   if (!input.priority || !TASK_PRIORITIES.includes(input.priority)) {
-    errors.priority = ['Priority is required and must be a valid value']
+    errors.priority = ['A prioridade é obrigatória e deve ser um valor válido']
   }
 
   if (!input.status || !TASK_STATUSES.includes(input.status)) {
-    errors.status = ['Status is required and must be a valid value']
+    errors.status = ['O status é obrigatório e deve ser um valor válido']
   }
 
   if (input.deadline && !isISODate(input.deadline)) {
-    errors.deadline = ['Deadline must be in YYYY-MM-DD format']
+    errors.deadline = ['O prazo deve estar no formato YYYY-MM-DD']
   }
 
   return { valid: Object.keys(errors).length === 0, errors }
